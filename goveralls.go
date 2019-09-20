@@ -289,8 +289,8 @@ func process() error {
 
 	// Only include a job ID if it's known, otherwise, Coveralls looks
 	// for the job and can't find it.
-	if jobId != "" {
-		j.ServiceJobId = jobId
+	if jobID != "" {
+		j.ServiceJobId = jobID
 	}
 
 	// Ignore files
@@ -364,7 +364,7 @@ func process() error {
 
 func buildNumber() string {
 	if *buildnum != "" {
-		return buildnum
+		return *buildnum
 	}
 	for _, envVar := range []string{
 		"TRAVIS_JOB_ID",
