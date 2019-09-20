@@ -52,6 +52,7 @@ var (
 	covermode  = flag.String("covermode", "count", "sent as covermode argument to go test")
 	repotoken  = flag.String("repotoken", os.Getenv("COVERALLS_TOKEN"), "Repository Token on coveralls")
 	parallel   = flag.Bool("parallel", os.Getenv("COVERALLS_PARALLEL") != "", "Submit as parallel")
+	buildnum   = flag.String("buildnum", "", "Build number/identifier to use in place of detected default")
 	endpoint   = flag.String("endpoint", "https://coveralls.io", "Hostname to submit Coveralls data to")
 	service    = flag.String("service", "travis-ci", "The CI service or other environment in which the test suite was run. ")
 	shallow    = flag.Bool("shallow", false, "Shallow coveralls internal server errors")
@@ -247,22 +248,7 @@ func process() error {
 	//
 	// Initialize Job
 	//
-	var jobId string
-	if travisJobId := os.Getenv("TRAVIS_JOB_ID"); travisJobId != "" {
-		jobId = travisJobId
-	} else if circleCiJobId := os.Getenv("CIRCLE_BUILD_NUM"); circleCiJobId != "" {
-		jobId = circleCiJobId
-	} else if appveyorJobId := os.Getenv("APPVEYOR_JOB_ID"); appveyorJobId != "" {
-		jobId = appveyorJobId
-	} else if semaphoreJobId := os.Getenv("SEMAPHORE_BUILD_NUMBER"); semaphoreJobId != "" {
-		jobId = semaphoreJobId
-	} else if jenkinsJobId := os.Getenv("BUILD_NUMBER"); jenkinsJobId != "" {
-		jobId = jenkinsJobId
-	} else if droneBuildNumber := os.Getenv("DRONE_BUILD_NUMBER"); droneBuildNumber != "" {
-		jobId = droneBuildNumber
-	} else if buildkiteBuildNumber := os.Getenv("BUILDKITE_BUILD_NUMBER"); buildkiteBuildNumber != "" {
-		jobId = buildkiteBuildNumber
-	}
+	jobID := buildNumber()
 
 	if *repotoken == "" {
 		repotoken = nil // remove the entry from json
@@ -374,6 +360,26 @@ func process() error {
 	fmt.Println(response.Message)
 	fmt.Println(response.URL)
 	return nil
+}
+
+func buildNumber() string {
+	if *buildnum != "" {
+		return buildnum
+	}
+	for _, envVar := range []string{
+		"TRAVIS_JOB_ID",
+		"CIRCLE_BUILD_NUM",
+		"APPVEYOR_JOB_ID",
+		"SEMAPHORE_BUILD_NUMBER",
+		"BUILD_NUMBER",
+		"DRONE_BUILD_NUMBER",
+		"BUILDKITE_BUILD_NUMBER",
+	} {
+		if jobID := os.Getenv(envVar); jobID != "" {
+			return jobID
+		}
+	}
+	return ""
 }
 
 func main() {
