@@ -1,6 +1,12 @@
 goveralls
 =========
 
+Accreditation: This repository was cloned from https://github.com/mattn/goveralls.
+It is not forked because we do not intend to submit upstream patches. The upstream
+source is relatively inactive and we want to be able to provide a more rapid response.
+
+It continues to be licensed under the MIT license.
+
 [Go](http://golang.org) integration for [Coveralls.io](http://coveralls.io)
 continuous code coverage tracking system.
 
@@ -177,11 +183,3 @@ If you are using Coveralls Enterprise and have a self-signed certificate, you ne
 $ goveralls -insecure
 ```
 
-# Authors
-
-* Yasuhiro Matsumoto (a.k.a. mattn)
-* haya14busa
-
-# License
-
-under the MIT License: http://mattn.mit-license.org/2016
