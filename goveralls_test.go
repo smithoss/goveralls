@@ -54,7 +54,7 @@ func TestVerboseArg(t *testing.T) {
 	fs := fakeServer()
 
 	t.Run("with verbose", func(t *testing.T) {
-		cmd := exec.Command("goveralls", "-package=github.com/mattn/goveralls/tester", "-v", "-endpoint")
+		cmd := exec.Command("goveralls", "-package=github.com/smithoss/goveralls/tester", "-v", "-endpoint")
 		cmd.Args = append(cmd.Args, "-v", "-endpoint", fs.URL)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
@@ -67,7 +67,7 @@ func TestVerboseArg(t *testing.T) {
 	})
 
 	t.Run("without verbose", func(t *testing.T) {
-		cmd := exec.Command("goveralls", "-package=github.com/mattn/goveralls/tester", "-endpoint")
+		cmd := exec.Command("goveralls", "-package=github.com/smithoss/goveralls/tester", "-endpoint")
 		cmd.Args = append(cmd.Args, "-v", "-endpoint", fs.URL)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
@@ -86,14 +86,14 @@ func TestShowArg(t *testing.T) {
 	fs := fakeServer()
 
 	t.Run("with show", func(t *testing.T) {
-		cmd := exec.Command("goveralls", "-package=github.com/mattn/goveralls/tester/...", "-show", "-endpoint")
+		cmd := exec.Command("goveralls", "-package=github.com/smithoss/goveralls/tester/...", "-show", "-endpoint")
 		cmd.Args = append(cmd.Args, "-show", "-endpoint", fs.URL)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
 			t.Fatal("Expected exit code 0 got 1", err, string(b))
 		}
 
-		expected := `goveralls: github.com/mattn/goveralls/tester
+		expected := `goveralls: github.com/smithoss/goveralls/tester
 Fake message
 http://fake.url
 `
@@ -109,7 +109,7 @@ func TestRaceArg(t *testing.T) {
 	fs := fakeServer()
 
 	t.Run("it should pass the test", func(t *testing.T) {
-		cmd := exec.Command("goveralls", "-package=github.com/mattn/goveralls/tester", "-race")
+		cmd := exec.Command("goveralls", "-package=github.com/smithoss/goveralls/tester", "-race")
 		cmd.Args = append(cmd.Args, "-endpoint", fs.URL)
 		b, err := cmd.CombinedOutput()
 		if err != nil {
@@ -128,8 +128,8 @@ func TestGoveralls(t *testing.T) {
 		os.Chdir(wd)
 		os.RemoveAll(tmp)
 	}()
-	runCmd(t, "go", "get", "github.com/mattn/goveralls/testergo-runewidth")
-	b := runCmd(t, "goveralls", "-package=github.com/mattn/goveralls/tester")
+	runCmd(t, "go", "get", "github.com/smithoss/goveralls/testergo-runewidth")
+	b := runCmd(t, "goveralls", "-package=github.com/smithoss/goveralls/tester")
 	lines := strings.Split(strings.TrimSpace(string(b)), "\n")
 	s := lines[len(lines)-1]
 	if s != "Succeeded" {
@@ -143,7 +143,7 @@ func prepareTest(t *testing.T) (tmpPath string) {
 	if err != nil {
 		t.Fatal("prepareTest:", err)
 	}
-	runCmd(t, "go", "build", "-o", filepath.Join(tmp, "bin", "goveralls"), "github.com/mattn/goveralls")
+	runCmd(t, "go", "build", "-o", filepath.Join(tmp, "bin", "goveralls"), "github.com/smithoss/goveralls")
 	os.Setenv("PATH", filepath.Join(tmp, "bin")+string(filepath.ListSeparator)+os.Getenv("PATH"))
 	os.MkdirAll(filepath.Join(tmp, "src"), 0755)
 	return tmp

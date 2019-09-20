@@ -15,7 +15,7 @@ continuous code coverage tracking system.
 `goveralls` requires a working Go installation (Go-1.2 or higher).
 
 ```bash
-$ go get github.com/mattn/goveralls
+$ go get github.com/smithoss/goveralls
 ```
 
 
@@ -58,7 +58,7 @@ sudo: false
 go:
   - tip
 before_install:
-  - go get github.com/mattn/goveralls
+  - go get github.com/smithoss/goveralls
 script:
   - $GOPATH/bin/goveralls -service=travis-ci
 ```
@@ -73,7 +73,7 @@ sudo: false
 go:
   - tip
 before_install:
-  - go get github.com/mattn/goveralls
+  - go get github.com/smithoss/goveralls
 script:
   - $GOPATH/bin/goveralls -service=travis-pro
 ```
@@ -102,7 +102,7 @@ env:
 ### For others:
 
 ```
-$ go get github.com/mattn/goveralls
+$ go get github.com/smithoss/goveralls
 $ go test -covermode=count -coverprofile=profile.cov
 $ goveralls -coverprofile=profile.cov -service=travis-ci
 ```
@@ -118,7 +118,7 @@ COVERALLS_TOKEN=your_token_goes_here
 Replace the `go test` line in your `Commands` with these lines:
 
 ```
-$ go get github.com/mattn/goveralls
+$ go get github.com/smithoss/goveralls
 $ goveralls -service drone.io
 ```
 
@@ -140,7 +140,7 @@ In your `circle.yml` add the following commands under the `test` section.
 ```yml
 test:
   pre:
-    - go get github.com/mattn/goveralls
+    - go get github.com/smithoss/goveralls
   override:
     - go test -v -cover -race -coverprofile=/home/ubuntu/coverage.out
   post:
@@ -162,7 +162,7 @@ More instructions on how to do this can be found in the [Semaphore documentation
 Replace the `go test` line in your `Commands` with these lines:
 
 ```
-$ go get github.com/mattn/goveralls
+$ go get github.com/smithoss/goveralls
 $ goveralls -service semaphore
 ```
 
